@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.e3e42685.css",
-    "main.js": "/static/js/main.0159f0dc.js",
-    "index.html": "/index.html",
-    "main.e3e42685.css.map": "/static/css/main.e3e42685.css.map",
-    "main.0159f0dc.js.map": "/static/js/main.0159f0dc.js.map"
+    "main.css": "/split-the-bill/static/css/main.e3e42685.css",
+    "main.js": "/split-the-bill/static/js/main.0159f0dc.js",
+    "index.html": "/split-the-bill/index.html",
+    "main.e3e42685.css.map": "/split-the-bill/static/css/main.e3e42685.css.map",
+    "main.0159f0dc.js.map": "/split-the-bill/static/js/main.0159f0dc.js.map"
   },
   "entrypoints": [
     "static/css/main.e3e42685.css",
