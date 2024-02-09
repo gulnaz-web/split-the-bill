@@ -1,35 +1,73 @@
 import { useState } from 'react';
-import Form from './components/Form';
-import Logo from './components/Logo';
-import PackingList from './components/PackingList';
-import Stats from './components/Stats';
+import Button from './components/Button';
+import FriendsList from './components/FriendsList';
+import FormAddFriend from './components/FormAddFriend';
+import FromSplitBill from './components/FromSplitBill';
+
+const initialFriends = [
+   {
+      id: 118836,
+      name: 'Clark',
+      link: 'https://i.pravatar.cc/48?u=118836',
+      balance: -7,
+   },
+   {
+      id: 933372,
+      name: 'Sarah',
+      link: 'https://i.pravatar.cc/48?u=933372',
+      balance: 20,
+   },
+   {
+      id: 499476,
+      name: 'Anthony',
+      link: 'https://i.pravatar.cc/48?u=499476',
+      balance: 0,
+   },
+];
 
 function App() {
-   const [items, setItems] = useState([]);
+   const [friends, setFriends] = useState(initialFriends);
+   const [current, setCurrent] = useState(null);
+   const [openAddFriendModal, setOpenAddFriendModal] = useState(false);
 
-   const handleAddItems = (item) => {
-      setItems((prev) => [...prev, item]);
+   const handleAddNewFriend = (newFriend) => {
+      setFriends((friends) => [...friends, newFriend]);
    };
 
-   const handleDeleteItem = (id) => {
-      setItems((prev) => prev.filter((item) => item.id !== id));
-   };
-
-   const handleTogglePacked = (id) => {
-      setItems((prev) =>
-         prev.map((item) => (item.id === id ? { ...item, packed: !item.packed } : item)),
+   const handleSplitBill = (value) => {
+      setFriends((friends) =>
+         friends.map((item) =>
+            item.id === current.id ? { ...item, balance: item.balance + value } : item,
+         ),
       );
+
+      setCurrent(null);
    };
-   const handleClearInputs = () => {
-      setItems([])
-   }
 
    return (
       <div className="app">
-         <Logo />
-         <Form onAddItems={handleAddItems} />
-         <PackingList items={items} onDeleteItem={handleDeleteItem} onTogglePacked={handleTogglePacked} onClearInputs={handleClearInputs} />
-         <Stats items={items} />
+         <div className="sidebar">
+            <FriendsList
+               friends={friends}
+               current={current}
+               onOpenModal={(value) => setCurrent(value)}
+               onCloseModalFriend={() => setOpenAddFriendModal(false)}
+            />
+            {openAddFriendModal && (
+               <FormAddFriend
+                  onAddNewFriend={(newFriend) => handleAddNewFriend(newFriend)}
+                  onClose={() => setOpenAddFriendModal(false)}
+               />
+            )}
+            <Button
+               text={openAddFriendModal ? 'Close' : 'Add friend'}
+               onClickButton={() => {
+                  setCurrent(null);
+                  setOpenAddFriendModal(!openAddFriendModal);
+               }}
+            />
+         </div>
+         {current && <FromSplitBill current={current} onSplitBill={handleSplitBill} />}
       </div>
    );
 }
